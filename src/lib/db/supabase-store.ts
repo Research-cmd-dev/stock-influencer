@@ -128,6 +128,20 @@ export class SupabaseStore implements DataStore {
     return data ? StatementSchema.parse(statementFromRow(data)) : null;
   }
 
+  async setStatementSignals(
+    id: string,
+    signals: Statement["extractedSignals"],
+  ): Promise<Statement> {
+    const { data, error } = await this.client
+      .from("statements")
+      .update({ extracted_signals: signals })
+      .eq("id", id)
+      .select("*")
+      .single();
+    if (error) this.fail("setStatementSignals", error);
+    return StatementSchema.parse(statementFromRow(data));
+  }
+
   async listThemes(options: { limit?: number } = {}): Promise<Theme[]> {
     let query = this.client.from("themes").select("*").order("confidence", { ascending: false });
     if (typeof options.limit === "number") query = query.limit(options.limit);

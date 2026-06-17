@@ -30,6 +30,8 @@ export interface DataStore {
   createStatement(input: StatementInput): Promise<Statement>;
   /** Returns an existing statement matching the dedupe hash, if any. */
   findStatementByDedupeHash(hash: string): Promise<Statement | null>;
+  /** Replace the extracted signals on a statement (set by the analysis engine). */
+  setStatementSignals(id: string, signals: Statement["extractedSignals"]): Promise<Statement>;
 
   // Themes ---------------------------------------------------------------------
   listThemes(options?: { limit?: number }): Promise<Theme[]>;

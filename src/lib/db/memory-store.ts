@@ -21,7 +21,7 @@ import {
   type Alert,
   type AlertInput,
 } from "@/lib/schemas";
-import { ValidationError } from "@/lib/errors";
+import { ValidationError, NotFoundError } from "@/lib/errors";
 import { statementDedupeHash } from "@/lib/hash";
 import { PEOPLE, STATEMENTS, THEMES, STOCK_MENTIONS } from "@/lib/db/fixtures";
 import type { DataStore } from "@/lib/db/types";
@@ -109,6 +109,17 @@ export class MemoryStore implements DataStore {
       if (s.dedupeHash === hash) return s;
     }
     return null;
+  }
+
+  async setStatementSignals(
+    id: string,
+    signals: Statement["extractedSignals"],
+  ): Promise<Statement> {
+    const existing = this.statements.get(id);
+    if (!existing) throw new NotFoundError(`Statement ${id} not found`);
+    const updated: Statement = { ...existing, extractedSignals: signals };
+    this.statements.set(id, updated);
+    return updated;
   }
 
   // Themes ---------------------------------------------------------------------
