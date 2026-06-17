@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
@@ -68,16 +69,21 @@ export default async function ExecPage({ params }: { params: Promise<{ id: strin
                       ))}
                     </div>
                   ) : null}
-                  {s.sourceUrl ? (
-                    <a
-                      href={s.sourceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-primary hover:underline"
-                    >
-                      Source
-                    </a>
-                  ) : null}
+                  <div className="flex items-center gap-3">
+                    <Link href={`/statement/${s.id}`} className="text-xs text-primary hover:underline">
+                      Details
+                    </Link>
+                    {s.sourceUrl ? (
+                      <a
+                        href={s.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-primary hover:underline"
+                      >
+                        Source
+                      </a>
+                    ) : null}
+                  </div>
                 </CardContent>
               </Card>
             </li>
