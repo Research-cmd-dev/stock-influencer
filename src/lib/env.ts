@@ -9,6 +9,7 @@ const EnvSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   DATA_BACKEND: z.enum(["fixture", "supabase"]).default("fixture"),
   LLM_BACKEND: z.enum(["mock", "anthropic"]).default("mock"),
+  AUTH_BACKEND: z.enum(["mock", "supabase"]).default("mock"),
   LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).optional(),
 
   NEXT_PUBLIC_SUPABASE_URL: z.string().optional(),

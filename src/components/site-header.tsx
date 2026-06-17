@@ -4,6 +4,7 @@ import { Activity } from "lucide-react";
 const NAV = [
   { href: "/", label: "Dashboard" },
   { href: "/themes", label: "Themes" },
+  { href: "/watchlist", label: "Watchlist" },
   { href: "/style-guide", label: "Style Guide" },
 ];
 
