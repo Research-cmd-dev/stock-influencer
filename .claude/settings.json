@@ -1,0 +1,59 @@
+{
+  "$comment": "Place at .claude/settings.json in the repo root and COMMIT it — cloud sessions in the Claude app start from a fresh clone and only see committed config. Rules evaluate deny > ask > allow; first match wins. In cloud sessions the VM is itself the sandbox and git push is proxy-restricted to the current working branch, so 'git push' is allowed here. defaultMode 'acceptEdits' auto-approves file edits. These rules reduce approval prompts; the disposable VM provides the real safety boundary (no --dangerously-skip-permissions needed in the app).",
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Edit(**)",
+      "Write(**)",
+      "Read(**)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(pnpm:*)",
+      "Bash(node:*)",
+      "Bash(tsc:*)",
+      "Bash(eslint:*)",
+      "Bash(prettier:*)",
+      "Bash(vitest:*)",
+      "Bash(playwright:*)",
+      "Bash(supabase:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git switch:*)",
+      "Bash(git restore:*)",
+      "Bash(git stash:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(echo:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)"
+    ],
+    "ask": [
+      "Bash(vercel:*)",
+      "Bash(supabase db push:*)",
+      "Bash(supabase db reset:*)",
+      "Bash(supabase link:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(rm -r:*)",
+      "Bash(sudo:*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(eval:*)",
+      "Read(.env)",
+      "Read(.env.local)",
+      "Read(.env.*.local)",
+      "Read(**/*.pem)",
+      "Read(**/secrets/**)"
+    ]
+  }
+}
