@@ -32,3 +32,32 @@ export function getEnv(): Env {
   cached = parsed.data;
   return cached;
 }
+
+/**
+ * Fail-fast boot-time check: when a non-default (real-service) backend is selected,
+ * the credentials it needs must be present. Called from instrumentation at startup.
+ * The mock/fixture defaults require nothing, so offline runs never trip this.
+ */
+export function assertBackendEnv(): void {
+  const env = getEnv();
+  const missing: string[] = [];
+
+  if (env.DATA_BACKEND === "supabase") {
+    if (!env.NEXT_PUBLIC_SUPABASE_URL) missing.push("NEXT_PUBLIC_SUPABASE_URL");
+    if (!env.SUPABASE_SERVICE_ROLE_KEY) missing.push("SUPABASE_SERVICE_ROLE_KEY");
+  }
+  if (env.AUTH_BACKEND === "supabase") {
+    if (!env.NEXT_PUBLIC_SUPABASE_URL) missing.push("NEXT_PUBLIC_SUPABASE_URL");
+    if (!env.NEXT_PUBLIC_SUPABASE_ANON_KEY) missing.push("NEXT_PUBLIC_SUPABASE_ANON_KEY");
+  }
+  if (env.LLM_BACKEND === "anthropic" && !env.ANTHROPIC_API_KEY) {
+    missing.push("ANTHROPIC_API_KEY");
+  }
+
+  if (missing.length > 0) {
+    throw new Error(
+      `Missing required env for selected backends: ${[...new Set(missing)].join(", ")}. ` +
+        `Set them, or use the mock/fixture defaults (DATA_BACKEND=fixture, AUTH_BACKEND=mock, LLM_BACKEND=mock).`,
+    );
+  }
+}
