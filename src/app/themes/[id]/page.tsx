@@ -29,8 +29,13 @@ export default async function ThemePage({ params }: { params: Promise<{ id: stri
         </Badge>
         <h1 className="text-2xl font-semibold tracking-tight">{theme.title}</h1>
         <p className="text-muted-foreground">{theme.summary}</p>
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <span className="font-mono">Confidence {Math.round(theme.confidence * 100)}%</span>
+        <div className="flex items-center gap-3 text-xs">
+          <span className="font-mono text-muted-foreground">
+            Confidence {Math.round(theme.confidence * 100)}%
+          </span>
+          <Link href={`/themes/${theme.id}/thread`} className="font-medium text-primary hover:underline">
+            Generate X thread →
+          </Link>
         </div>
         <Disclaimer />
       </header>
